@@ -32,7 +32,27 @@ Simple and basic: docker-compose service launched via unit systemd
 
 
 * Installation tree
-  * /usr/local/bin/docker-composer-systemd* : wrapper script
   * /usr/local/etc/docker-composer-systemd/{SERVICE}/docker-compose.yml : service compose configuration
-  * /etc/systemd/system/{SERVICE}.service : unit systemd to start compose
+```
+/usr/local/etc/docker-compose-systemd
+└── ctx1
+    ├── ctx1.service
+    ├── docker-compose-simple.yml
+    └── docker-compose.yml
+```
 
+  * /usr/local/bin/docker-composer-systemd* : wrapper script
+```
+/usr/local/bin/
+├── docker-compose
+├── docker-compose_start
+├── docker-compose_start_post
+├── docker-compose_start_pre
+├── docker-compose_stop
+├── docker-compose_systemd.conf
+```
+
+  * /etc/systemd/system/{SERVICE}.service : unit systemd to start compose
+```
+/etc/systemd/system/ctx1.service
+```
