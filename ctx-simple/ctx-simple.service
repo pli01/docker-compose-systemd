@@ -1,0 +1,24 @@
+[Unit]
+Description=ctx-simple Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+# config path to ctx/docker-compose.yml
+WorkingDirectory=/usr/local/bin/
+Type=oneshot
+RemainAfterExit=yes
+Restart=always
+RestartSec=10s
+Type=notify
+NotifyAccess=all
+TimeoutStartSec=120
+TimeoutStopSec=15
+
+ExecStartPre=-/usr/local/bin/docker-compose_start_pre ctx-simple
+ExecStart=/usr/local/bin/docker-compose_start ctx-simple
+ExecStartPost=/usr/local/bin/docker-compose_start_post ctx-simple
+ExecStop=/usr/local/bin/docker-compose_stop ctx-simple
+
+[Install]
+WantedBy=multi-user.target

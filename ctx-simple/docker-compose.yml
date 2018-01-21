@@ -1,0 +1,28 @@
+version: '2'
+# define network
+networks:
+  front:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+      com.docker.network.enable_ipv4: "true"
+      com.docker.network.driver.mtu: 1450
+# define services
+services:
+ web:
+  image: debian/jessie:latest
+  restart: unless-stopped
+  logging:
+#    driver: syslog
+    driver: journald
+    options:
+      tag: "{{.Name}}:{{.ImageName}}:{{.ID}}"
+      labels: production
+      env: customer
+  entrypoint:
+    - /bin/bash
+    -  -c
+    - 'for i in $$(seq 1 30); do echo $$i/30  ; sleep 1; done'
+  networks:
+    - front
+

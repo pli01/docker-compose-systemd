@@ -1,0 +1,32 @@
+version: '2'
+# define network
+networks:
+  front:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+      com.docker.network.enable_ipv4: "true"
+      com.docker.network.driver.mtu: 1450
+# define services
+services:
+ web:
+  image: nginx:latest
+  restart: unless-stopped
+  logging:
+    driver: syslog
+#    driver: journald
+    options:
+      tag: "{{.Name}}"
+#      tag: "{{.Name}}:{{.ImageName}}:{{.ID}}"
+      labels: production
+      env: customer
+  extra_hosts:
+    - "log:172.18.0.1"
+    - "rabbitmq:127.0.0.1"
+    - "jenkins:127.0.0.1"
+    - "elk:127.0.0.1"
+  ports:
+    - "80:80"
+  networks:
+    - front
+

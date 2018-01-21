@@ -1,0 +1,11 @@
+#!/bin/bash -e
+echo "$(basename $0): $(dirname $0) $@"
+[ -z "$1" ] && exit 1
+source $(dirname $0)/docker-compose_systemd.conf
+[ -x $(type -p docker-compose) ] || exit 1
+cd $docker_compose_config
+[ -f "$1/docker-compose.yml" ] || exit 1
+
+docker-compose $docker_compose_args -f $1/docker-compose.yml config -q && \
+docker-compose $docker_compose_args -f $1/docker-compose.yml up -d
+exit 0

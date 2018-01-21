@@ -1,0 +1,6 @@
+#!/bin/bash -e
+echo "$(basename $0): $@"
+source $(dirname $0)/docker-compose_systemd.conf
+[ -x $(type -p docker-compose) ] || exit 1
+cd $docker_compose_config
+exit 0
